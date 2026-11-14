@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saina's Journal</title>
+<style>
+:root{--ink:#302f2b;--muted:#8e8a80;--line:#e9e5dc;--paper:#fbfaf7;--white:#fff;--accent:#9b8c76;--soft:#f1eee8;--green:#758776}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+.wrap{max-width:1050px;margin:auto;padding:26px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:10px 0 22px;gap:16px}
+.brand{direction:ltr;text-align:left}.brand h1{font-family:Georgia,serif;font-size:30px;font-weight:400;letter-spacing:.3px;margin:0}.brand p{color:var(--muted);font:italic 13px Georgia;margin:7px 0 0}
+.date{color:var(--muted);font-size:12px}
+.hero{padding:36px 0 26px}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:2px;direction:ltr;text-align:right}.hero h2{font-size:25px;font-weight:400;margin:12px 0 8px}.hero p{color:var(--muted);font-size:13px;line-height:2;margin:0}
+.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}.card{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:19px;margin-bottom:16px}
+.card h3{font-size:15px;font-weight:500;margin:0 0 15px}.sub{font-size:11px;color:var(--muted);font-weight:400;margin-right:7px}
+.row{display:flex;gap:8px}.row>*{min-width:0}
+input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 12px;outline:none;width:100%;font-size:12px}
+input:focus,select:focus,textarea:focus{border-color:#b9aa93}
+button{border:0;border-radius:9px;padding:11px 15px;background:var(--ink);color:#fff;font:inherit;font-size:12px;cursor:pointer;white-space:nowrap}
+button.secondary{background:var(--soft);color:var(--ink)}button.small{padding:7px 10px;font-size:11px}
+form{display:flex;gap:8px;margin-bottom:14px}form input{flex:1}
+.task{display:flex;align-items:center;gap:10px;border-top:1px solid #f0ede7;padding:12px 0;font-size:12px}.task:first-child{border-top:0}
+.task input{width:16px;height:16px;accent-color:var(--green)}.task.done span{text-decoration:line-through;color:#aaa}.task button{margin-right:auto}
+.empty{color:#aaa;font-size:12px;padding:8px 0}
+.stat{background:var(--soft);border-radius:12px;padding:14px;margin-bottom:9px}.stat b{display:block;font:25px Georgia;margin-bottom:5px}.stat span{color:var(--muted);font-size:11px}
+.progress{height:6px;background:#eeeae2;border-radius:8px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;background:var(--green);width:0;transition:.2s}
+.listline{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-top:1px solid #f0ede7;font-size:12px}
+footer{text-align:center;color:#aaa;font:italic 12px Georgia;margin-top:20px;direction:ltr}
+.note{font-size:11px;color:var(--muted);line-height:1.9}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.brand h1{font-size:25px}.hero{padding-top:27px}.wrap{padding:18px 14px 40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="date" id="today"></div>
+  <div class="brand"><h1>Saina's Journal</h1><p>A little space to grow, learn & achieve.</p></div>
+</header>
+<section class="hero">
+  <div class="eyebrow">YOUR STUDY SPACE</div>
+  <h2>قدم‌های کوچک، پیشرفت‌های بزرگ.</h2>
+  <p>برنامه‌هات رو بنویس، انجامشون بده و مسیر پیشرفتت رو ببین. اینجا فضای کوچیک تو برای یادگیریه.</p>
+</section>
+<div class="grid">
+ <main>
+  <section class="card">
+   <h3>برنامه امروز <span class="sub">Daily planner</span></h3>
+   <form id="taskForm"><input id="taskInput" placeholder="مثلاً: مرور فصل اول علوم..." maxlength="100" required><button>افزودن</button></form>
+   <div id="tasks"></div>
+  </section>
+  <section class="card">
+   <h3>امتحان‌ها و موعدها <span class="sub">Upcoming dates</span></h3>
+   <form id="examForm"><input id="examName" placeholder="نام درس یا امتحان" maxlength="70" required><input id="examDate" type="date" required><button>ثبت</button></form>
+   <div id="exams"></div>
+  </section>
+  <section class="card">
+   <h3>یادداشت‌های من <span class="sub">Quick notes</span></h3>
+   <textarea id="notes" rows="4" placeholder="ایده‌ها، نکته‌ها و یادآوری‌هات رو اینجا بنویس..."></textarea>
+   <p class="note">یادداشت‌ها به‌صورت خودکار در همین مرورگر ذخیره می‌شن.</p>
+  </section>
+ </main>
+ <aside>
+  <section class="card">
+   <h3>نمای امروز <span class="sub">Overview</span></h3>
+   <div class="stat"><b id="doneCount">0/0</b><span>کارهای انجام‌شده</span><div class="progress"><i id="progress"></i></div></div>
+   <div class="stat"><b id="studyTime">0</b><span>دقیقه مطالعه ثبت‌شده</span></div>
+  </section>
+  <section class="card">
+   <h3>ثبت زمان مطالعه <span class="sub">Study tracker</span></h3>
+   <div class="row"><input id="minutes" type="number" min="1" max="600" placeholder="دقیقه"><button id="addTime">ثبت</button></div>
+   <p class="note">بعد از هر نوبت مطالعه، زمانش رو وارد کن.</p>
+   <button class="secondary small" id="resetTime">صفر کردن زمان</button>
+  </section>
+  <section class="card">
+   <h3>یادآوری کوچک</h3>
+   <p class="note">لازم نیست همه‌چیز رو یک‌روزه انجام بدی. فقط قدم بعدی رو بردار. 🤍</p>
+  </section>
+ </aside>
+</div>
+<footer>made with care · Saina's Journal</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const key='sainas-journal-v1';
+let data={tasks:[],exams:[],notes:'',minutes:0};
+try{data={...data,...JSON.parse(localStorage.getItem(key)||'{}')}}catch(e){}
+function save(){localStorage.setItem(key,JSON.stringify(data));render()}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+ $('tasks').innerHTML=data.tasks.length?data.tasks.map((t,i)=>`<div class="task ${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${i})"><span>${safe(t.text)}</span><button class="secondary small" onclick="deleteTask(${i})">حذف</button></div>`).join(''):'<div class="empty">هنوز کاری اضافه نکردی. اولین قدمت رو بنویس!</div>';
+ $('exams').innerHTML=data.exams.length?data.exams.slice().sort((a,b)=>a.date.localeCompare(b.date)).map((e,i)=>`<div class="listline"><span>${safe(e.name)}</span><span>${safe(e.date)}</span><button class="secondary small" onclick="deleteExam(${data.exams.indexOf(e)})">×</button></div>`).join(''):'<div class="empty">فعلاً موعدی ثبت نشده.</div>';
+ $('notes').value=data.notes||'';
+ const done=data.tasks.filter(t=>t.done).length,total=data.tasks.length;
+ $('doneCount').textContent=`${done}/${total}`;$('progress').style.width=(total?done/total*100:0)+'%';$('studyTime').textContent=data.minutes||0;
+}
+window.toggleTask=i=>{data.tasks[i].done=!data.tasks[i].done;save()};
+window.deleteTask=i=>{data.tasks.splice(i,1);save()};
+window.deleteExam=i=>{data.exams.splice(i,1);save()};
+$('taskForm').addEventListener('submit',e=>{e.preventDefault();let v=$('taskInput').value.trim();if(v){data.tasks.push({text:v,done:false});$('taskInput').value='';save()}});
+$('examForm').addEventListener('submit',e=>{e.preventDefault();data.exams.push({name:$('examName').value.trim(),date:$('examDate').value});$('examName').value='';$('examDate').value='';save()});
+$('notes').addEventListener('input',e=>{data.notes=e.target.value;localStorage.setItem(key,JSON.stringify(data))});
+$('addTime').onclick=()=>{let n=Number($('minutes').value);if(n>0&&n<=600){data.minutes=(data.minutes||0)+n;$('minutes').value='';save()}};
+$('resetTime').onclick=()=>{if(confirm('زمان مطالعه ثبت‌شده صفر شود؟')){data.minutes=0;save()}};
+const d=new Date();$('today').textContent=d.toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+render();
+</script>
+</body></html>
